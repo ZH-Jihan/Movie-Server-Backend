@@ -46,7 +46,7 @@ const logInUser = async (payload: TLoginUser) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    { id: user.id, email: user.email, role: user.role },
     config.JWT_SECRET as string,
     { expiresIn: config.JWT_EXPIRES }
   );
@@ -74,7 +74,7 @@ const resetPassword = async (email: string, newPassword: string) => {
 };
 
 export const AuthServices = {
-    registerUser,
-    logInUser,
-    resetPassword,
-}
+  registerUser,
+  logInUser,
+  resetPassword,
+};
