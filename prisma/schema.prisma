@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String       @id @default(uuid())
+  name              String
+  email             String       @unique
+  password          String
+  role              Role         @default(USER)
+  status            Status      @default(ACTIVE)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  reviews           Review[]     @relation("UserReviews")
+  comments          Comment[]    @relation("UserComments")
+  likes             ReviewLike[]
+  watchlistItems    Watchlist[]
+  purchases         Purchase[]
+  resetToken        String? // hashed reset token
+  resetTokenExpires DateTime? // token expiry timestamp
+
+  @@map("users")
+}
+
+model Media {
+  id            String         @id @default(uuid())
+  title         String
+  description   String
+  type          MediaType
+  genres        String[] // e.g. ["Action", "Drama"]
+  releaseYear   Int
+  duration      Int // in minutes (or episodes count for series)
+  price         Float // purchase price
+  rentPrice     Float // rent price
+  streamingLink String // URL or storage key for content
+  drmProtected  Boolean     @default(false)
+  isPublished   Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  reviews       Review[]
+  watchlist     Watchlist[]
+  purchases     Purchase[]
+
+  @@map("medias")
+}
+
+model Review {
+  id         String          @id @default(uuid())
+  rating     Int // 1 to 10
+  text       String?
+  spoiler    Boolean      @default(false)
+  tags       String[] // e.g. ["trailer", "visuals"]
+  isApproved Boolean      @default(false)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  user       User         @relation("UserReviews", fields: [userId], references: [id])
+  userId     String
+  media      Media        @relation(fields: [mediaId], references: [id])
+  mediaId    String
+  comments   Comment[]
+  likes      ReviewLike[]
+
+  @@map("reviews")
+}
+
+model Comment {
+  id        String       @id @default(uuid())
+  text      String
+  createdAt DateTime  @default(now())
+  user      User      @relation("UserComments", fields: [userId], references: [id])
+  userId    String
+  review    Review    @relation(fields: [reviewId], references: [id])
+  reviewId  String
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId  String?
+  replies   Comment[] @relation("CommentReplies")
+
+  @@map("comments")
+}
+
+model ReviewLike {
+  id        String      @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  review    Review   @relation(fields: [reviewId], references: [id])
+  reviewId  String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reviewId])
+  @@map("reviewLikes")
+}
+
+model Watchlist {
+  id      String   @id @default(uuid())
+  user    User  @relation(fields: [userId], references: [id])
+  userId  String
+  media   Media @relation(fields: [mediaId], references: [id])
+  mediaId String
+
+  @@unique([userId, mediaId])
+  @@map("watchlist")
+}
+
+model Purchase {
+  id            String            @id @default(uuid())
+  type          PurchaseType
+  price         Float
+  status        PurchaseStatus @default(PENDING)
+  transactionId String?
+  createdAt     DateTime       @default(now())
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  media         Media          @relation(fields: [mediaId], references: [id])
+  mediaId       String
+
+  @@map("purchases")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum MediaType {
+  MOVIE
+  SERIES
+}
+
+enum PurchaseType {
+  RENT
+  BUY
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+}
