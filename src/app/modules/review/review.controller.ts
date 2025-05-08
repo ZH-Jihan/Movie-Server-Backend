@@ -1,0 +1,51 @@
+import { StatusCodes } from "http-status-codes";
+import ApiResponse from "../../utils/ApiResponse";
+import asyncHandler from "../../utils/asyncHandler";
+import { reviewService } from "./review.service";
+
+const createReview = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  const result = await reviewService.createReview(id, req.body);
+
+  ApiResponse(res, {
+    statusCode: StatusCodes.CREATED,
+    message: "Review created successfully",
+    data: result,
+  });
+});
+
+const getReviews = asyncHandler(async (req, res) => {
+  const { mideaId } = req.params;
+  const result = await reviewService.getReviews(mideaId);
+
+  ApiResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "Reviews fetched successfully",
+    data: result,
+  });
+});
+
+const updateReview = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const result = await reviewService.updateReview(id);
+
+  ApiResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "Review updated successfully",
+    data: result,
+  });
+});
+
+const likeReview = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  const { reviewId } = req.params;
+  const result = await reviewService.likeReview(id, reviewId);
+
+  ApiResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "Review liked successfully",
+    data: result,
+  });
+});
+
+export { createReview, getReviews, likeReview, updateReview };

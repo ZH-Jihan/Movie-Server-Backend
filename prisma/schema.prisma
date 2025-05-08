@@ -20,7 +20,7 @@ model User {
   email             String       @unique
   password          String
   role              Role         @default(USER)
-  status            Status      @default(ACTIVE)
+  status            Status       @default(ACTIVE)
   createdAt         DateTime     @default(now())
   updatedAt         DateTime     @updatedAt
   reviews           Review[]     @relation("UserReviews")
@@ -35,7 +35,7 @@ model User {
 }
 
 model Media {
-  id            String         @id @default(uuid())
+  id            String      @id @default(uuid())
   title         String
   description   String
   type          MediaType
@@ -57,7 +57,7 @@ model Media {
 }
 
 model Review {
-  id         String          @id @default(uuid())
+  id         String       @id @default(uuid())
   rating     Int // 1 to 10
   text       String?
   spoiler    Boolean      @default(false)
@@ -76,7 +76,7 @@ model Review {
 }
 
 model Comment {
-  id        String       @id @default(uuid())
+  id        String    @id @default(uuid())
   text      String
   createdAt DateTime  @default(now())
   user      User      @relation("UserComments", fields: [userId], references: [id])
@@ -91,7 +91,7 @@ model Comment {
 }
 
 model ReviewLike {
-  id        String      @id @default(uuid())
+  id        String   @id @default(uuid())
   user      User     @relation(fields: [userId], references: [id])
   userId    String
   review    Review   @relation(fields: [reviewId], references: [id])
@@ -103,10 +103,10 @@ model ReviewLike {
 }
 
 model Watchlist {
-  id      String   @id @default(uuid())
-  user    User  @relation(fields: [userId], references: [id])
+  id      String @id @default(uuid())
+  user    User   @relation(fields: [userId], references: [id])
   userId  String
-  media   Media @relation(fields: [mediaId], references: [id])
+  media   Media  @relation(fields: [mediaId], references: [id])
   mediaId String
 
   @@unique([userId, mediaId])
@@ -114,7 +114,7 @@ model Watchlist {
 }
 
 model Purchase {
-  id            String            @id @default(uuid())
+  id            String         @id @default(uuid())
   type          PurchaseType
   price         Float
   status        PurchaseStatus @default(PENDING)
