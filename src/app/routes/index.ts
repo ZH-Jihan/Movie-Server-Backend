@@ -23,6 +23,10 @@ const routerModules = [
     path: "/comment",
     route: CommentRoutes,
   },
+  {
+    path: "/user",
+    route: CommentRoutes,
+  },
 ];
 
 routerModules.forEach((route) => router.use(route.path, route.route));
