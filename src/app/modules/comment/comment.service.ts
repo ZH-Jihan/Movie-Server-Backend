@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { Comment } from "../../../../generated/prisma";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
+import { Comment } from "@prisma/client";
 
 // Create a new comment
 const addComment = async (userid: string, payload: Comment) => {

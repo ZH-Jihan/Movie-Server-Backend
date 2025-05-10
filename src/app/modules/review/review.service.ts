@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { Review } from "../../../../generated/prisma";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
+import { Review } from "@prisma/client";
 
 // Create a new review
 const createReview = async (userId: string, review: Review) => {

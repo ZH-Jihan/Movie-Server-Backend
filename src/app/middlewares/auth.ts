@@ -4,7 +4,7 @@ import config from "../config";
 import ApiError from "../utils/ApiError";
 import asyncHandler from "../utils/asyncHandler";
 import prisma from "../utils/prisma";
-import { Role } from "../../../generated/prisma";
+import { Role } from "@prisma/client";
 
 const auth = (...roles: Role[]) => {
   return asyncHandler(async (req, res, next) => {

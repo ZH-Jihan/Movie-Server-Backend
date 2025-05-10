@@ -46,9 +46,9 @@ const logInUser = async (payload: TLoginUser) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
+    { id: user.id, email: user.email, role: user.role, name: user.name },
     config.JWT_SECRET as string,
-    { expiresIn: config.JWT_EXPIRES }
+    { expiresIn: config.JWT_EXPIRES } as jwt.SignOptions
   );
 
   return token;

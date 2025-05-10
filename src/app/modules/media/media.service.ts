@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
-import { Media, Prisma } from "../../../../generated/prisma";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
 import PrismaQueryBuilder from "../../utils/QueryBuilder";
+import { Media, Prisma } from "@prisma/client";
 
 // Create new media
 const createMedia = async (payload: Media) => {
@@ -75,9 +75,11 @@ const getMediaById = async (id: string) => {
     );
   }
   // Calculate average rating
-  const ratings = media.reviews.map((r) => r.rating);
+  const ratings = media.reviews.map((r: { rating: number }) => r.rating);
   const avgRating = ratings.length
-    ? (ratings.reduce((a, b) => a + b) / ratings.length).toFixed(1)
+    ? (
+        ratings.reduce((a: number, b: number) => a + b) / ratings.length
+      ).toFixed(1)
     : 0;
   return { media, avgRating };
 };
