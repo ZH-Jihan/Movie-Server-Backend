@@ -1,4 +1,4 @@
-# Assignment-9 Backend
+# CineVerse Backend
 
 A Node.js backend for a media platform, built with Express, TypeScript, Prisma ORM, and PostgreSQL.  
 Supports user authentication, media management, reviews, comments, purchases, and more.
@@ -21,8 +21,8 @@ Supports user authentication, media management, reviews, comments, purchases, an
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd backend
+git clone https://github.com/ZH-Jihan/Movie-Server-Backend
+cd Movie-Server-Backend
 ```
 
 ### 2. Install Dependencies
