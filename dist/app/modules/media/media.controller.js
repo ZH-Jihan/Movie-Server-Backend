@@ -19,7 +19,8 @@ const asyncHandler_1 = __importDefault(require("../../utils/asyncHandler"));
 const media_service_1 = require("./media.service");
 // Create
 const createMedia = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield media_service_1.MediaServices.createMedia(req.body);
+    console.log(req.body);
+    const result = yield media_service_1.MediaServices.createMedia(req.body, req.file);
     (0, ApiResponse_1.default)(res, {
         statusCode: http_status_codes_1.StatusCodes.CREATED,
         message: "Media created successfully",

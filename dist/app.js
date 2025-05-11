@@ -9,7 +9,8 @@ const globalErrorHandelar_1 = __importDefault(require("./app/middlewares/globalE
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
-app.use(express_1.default.json());
+app.use(express_1.default.json({ limit: "10mb" }));
+app.use(express_1.default.urlencoded({ extended: true, limit: "10mb" }));
 app.use((0, cors_1.default)({ origin: "*" }));
 app.get("/", (req, res) => {
     res.send("Hello World!");

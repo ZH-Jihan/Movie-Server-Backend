@@ -14,13 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MediaServices = void 0;
 const http_status_codes_1 = require("http-status-codes");
+const uploadImgToCloudinary_1 = require("../../middlewares/uploadImgToCloudinary");
 const ApiError_1 = __importDefault(require("../../utils/ApiError"));
 const prisma_1 = __importDefault(require("../../utils/prisma"));
 const QueryBuilder_1 = __importDefault(require("../../utils/QueryBuilder"));
 // Create new media
-const createMedia = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createMedia = (payload, img) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(payload, img);
+    const imgUrl = yield (0, uploadImgToCloudinary_1.uploadImgToCloudinary)(img.path, payload.title);
     const newMedia = yield prisma_1.default.media.create({
-        data: payload,
+        data: Object.assign(Object.assign({}, payload), { posterUrl: imgUrl.secure_url }),
     });
     return newMedia;
 });
