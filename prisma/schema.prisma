@@ -38,6 +38,7 @@ model Media {
   title         String
   description   String
   type          MediaType
+  posterUrl     String @default("not post")
   genres        String[] // e.g. ["Action", "Drama"]
   releaseYear   Int
   duration      Int // in minutes (or episodes count for series)

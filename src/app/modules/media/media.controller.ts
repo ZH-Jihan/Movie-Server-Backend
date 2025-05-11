@@ -5,7 +5,8 @@ import { MediaServices } from "./media.service";
 
 // Create
 const createMedia = asyncHandler(async (req, res) => {
-  const result = await MediaServices.createMedia(req.body);
+  console.log(req.body);
+  const result = await MediaServices.createMedia(req.body, req.file);
 
   ApiResponse(res, {
     statusCode: StatusCodes.CREATED,

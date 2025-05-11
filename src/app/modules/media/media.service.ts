@@ -1,13 +1,18 @@
+import { Media, Prisma } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
+import { uploadImgToCloudinary } from "../../middlewares/uploadImgToCloudinary";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
 import PrismaQueryBuilder from "../../utils/QueryBuilder";
-import { Media, Prisma } from "@prisma/client";
 
 // Create new media
-const createMedia = async (payload: Media) => {
+const createMedia = async (payload: Media, img: any) => {
+  console.log(payload, img);
+
+  const imgUrl = await uploadImgToCloudinary(img.path, payload.title);
+
   const newMedia = await prisma.media.create({
-    data: payload,
+    data: { ...payload, posterUrl: imgUrl.secure_url as string },
   });
 
   return newMedia;
