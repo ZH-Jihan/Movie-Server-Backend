@@ -49,8 +49,9 @@ const updateReview = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0,
 exports.updateReview = updateReview;
 const likeReview = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.user;
-    const { reviewId } = req.params;
-    const result = yield review_service_1.reviewService.likeReview(id, reviewId);
+    const { id: mediaId } = req.params;
+    console.log(id, mediaId);
+    const result = yield review_service_1.reviewService.likeReview(id, mediaId);
     (0, ApiResponse_1.default)(res, {
         statusCode: http_status_codes_1.StatusCodes.OK,
         message: "Review liked successfully",

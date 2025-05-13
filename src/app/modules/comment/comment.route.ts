@@ -13,6 +13,6 @@ router
     validateRequest(commentCreateSchema),
     addComment
   );
-router.route("/:reviewId").post(getComments);
+router.route("/:reviewId").get(getComments);
 
 export const CommentRoutes = router;

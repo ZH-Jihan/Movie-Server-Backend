@@ -33,7 +33,11 @@ const getReviews = (id) => __awaiter(void 0, void 0, void 0, function* () {
             mediaId: id,
             isApproved: true,
         },
-        include: { user: { select: { id: true, name: true } }, likes: true },
+        include: {
+            user: { select: { id: true, name: true } },
+            likes: true,
+            comments: true,
+        },
     });
     return reviews;
 });

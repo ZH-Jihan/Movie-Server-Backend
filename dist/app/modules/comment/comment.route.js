@@ -13,5 +13,5 @@ const router = (0, express_1.Router)();
 router
     .route("/")
     .post((0, auth_1.default)("USER", "ADMIN"), (0, validateRequest_1.default)(comment_validation_1.commentCreateSchema), comment_controller_1.addComment);
-router.route("/:reviewId").post(comment_controller_1.getComments);
+router.route("/:reviewId").get(comment_controller_1.getComments);
 exports.CommentRoutes = router;

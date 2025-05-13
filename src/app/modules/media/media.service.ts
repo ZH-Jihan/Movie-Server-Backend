@@ -1,9 +1,10 @@
-import { Media, Prisma } from "@prisma/client";
+
 import { StatusCodes } from "http-status-codes";
 import { uploadImgToCloudinary } from "../../middlewares/uploadImgToCloudinary";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
 import PrismaQueryBuilder from "../../utils/QueryBuilder";
+import { Media, Prisma } from "@prisma/client";
 
 // Create new media
 const createMedia = async (payload: Media, img: any) => {

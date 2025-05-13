@@ -7,7 +7,7 @@ import {
   likeReview,
   updateReview,
 } from "./review.controller";
-import { reviewCreateSchema, reviewUpdateSchema } from "./review.validation";
+import { reviewCreateSchema } from "./review.validation";
 
 const router = Router();
 

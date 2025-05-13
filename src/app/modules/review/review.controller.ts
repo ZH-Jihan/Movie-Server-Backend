@@ -38,8 +38,11 @@ const updateReview = asyncHandler(async (req, res) => {
 
 const likeReview = asyncHandler(async (req, res) => {
   const { id } = req.user;
-  const { reviewId } = req.params;
-  const result = await reviewService.likeReview(id, reviewId);
+  const { id:mediaId } = req.params;
+  console.log(id, mediaId);
+  
+
+  const result = await reviewService.likeReview(id, mediaId);
 
   ApiResponse(res, {
     statusCode: StatusCodes.OK,

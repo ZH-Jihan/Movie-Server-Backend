@@ -1,7 +1,7 @@
+import { Review } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
-import { Review } from "@prisma/client";
 
 // Create a new review
 const createReview = async (userId: string, review: Review) => {
@@ -28,7 +28,11 @@ const getReviews = async (id: string) => {
       mediaId: id,
       isApproved: true,
     },
-    include: { user: { select: { id: true, name: true } }, likes: true },
+    include: {
+      user: { select: { id: true, name: true } },
+      likes: true,
+      comments: true,
+    },
   });
   return reviews;
 };

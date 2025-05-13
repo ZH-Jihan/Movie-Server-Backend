@@ -13,7 +13,8 @@ const addComment = async (userid: string, payload: Comment) => {
   }
   const comment = await prisma.comment.create({
     data: {
-      ...payload,
+      reviewId: payload.reviewId,
+      text: payload.text,
       userId: userid,
     },
   });

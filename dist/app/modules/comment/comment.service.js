@@ -22,7 +22,11 @@ const addComment = (userid, payload) => __awaiter(void 0, void 0, void 0, functi
         throw new ApiError_1.default(http_status_codes_1.StatusCodes.BAD_REQUEST, "Comment text cannot be empty.");
     }
     const comment = yield prisma_1.default.comment.create({
-        data: Object.assign(Object.assign({}, payload), { userId: userid }),
+        data: {
+            reviewId: payload.reviewId,
+            text: payload.text,
+            userId: userid,
+        },
     });
     return comment;
 });
