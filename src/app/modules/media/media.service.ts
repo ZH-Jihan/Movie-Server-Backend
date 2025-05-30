@@ -1,19 +1,43 @@
-
+import { Media, Prisma } from "@prisma/client";
 import { StatusCodes } from "http-status-codes";
 import { uploadImgToCloudinary } from "../../middlewares/uploadImgToCloudinary";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
 import PrismaQueryBuilder from "../../utils/QueryBuilder";
-import { Media, Prisma } from "@prisma/client";
 
 // Create new media
-const createMedia = async (payload: Media, img: any) => {
-  console.log(payload, img);
+const createMedia = async (payload: Media, files: any) => {
+  // Poster
+  const posterFile = files?.file?.[0];
+  const imgUrl = posterFile
+    ? await uploadImgToCloudinary(posterFile.path, payload.title)
+    : { secure_url: undefined };
 
-  const imgUrl = await uploadImgToCloudinary(img.path, payload.title);
+  // Cover Image
+  const coverFile = files?.coverImage?.[0];
+  const coverUrl = coverFile
+    ? await uploadImgToCloudinary(coverFile.path, payload.title + "-cover")
+    : { secure_url: undefined };
+
+  // Screenshots
+  const screenshotFiles = files?.screenshots || [];
+  let screenshotUrls: string[] = [];
+  if (screenshotFiles.length > 0) {
+    const uploaded = await Promise.all(
+      screenshotFiles.map((file: any, idx: number) =>
+        uploadImgToCloudinary(file.path, payload.title + "-screenshot-" + idx)
+      )
+    );
+    screenshotUrls = uploaded.map((u: any) => u.secure_url);
+  }
 
   const newMedia = await prisma.media.create({
-    data: { ...payload, posterUrl: imgUrl.secure_url as string },
+    data: {
+      ...payload,
+      posterUrl: imgUrl.secure_url as string,
+      coverImage: coverUrl.secure_url as string,
+      screenshots: screenshotUrls,
+    },
   });
 
   return newMedia;
@@ -21,8 +45,6 @@ const createMedia = async (payload: Media, img: any) => {
 
 // Get all media with search, filter, sort, and pagination
 const getAllMedia = async (query: any) => {
-  console.log(query);
-
   const queryBuilder = new PrismaQueryBuilder<
     Media, // T = Media model type
     Prisma.MediaWhereInput, // Where = Prisma's generated MediaWhereInput

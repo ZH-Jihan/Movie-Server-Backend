@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const auth_route_1 = require("../modules/auth/auth.route");
 const comment_route_1 = require("../modules/comment/comment.route");
+const coupon_routes_1 = require("../modules/coupon/coupon.routes");
 const media_route_1 = require("../modules/media/media.route");
 const review_route_1 = require("../modules/review/review.route");
 const router = (0, express_1.Router)();
@@ -18,6 +19,10 @@ const routerModules = [
     {
         path: "/review",
         route: review_route_1.ReviewRoutes,
+    },
+    {
+        path: "/coupons",
+        route: coupon_routes_1.CuponRoutes,
     },
     {
         path: "/comment",

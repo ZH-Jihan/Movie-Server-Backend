@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateReview = exports.likeReview = exports.getReviews = exports.createReview = void 0;
+exports.updateReview = exports.likeReview = exports.getReviews = exports.getAllReviews = exports.createReview = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const ApiResponse_1 = __importDefault(require("../../utils/ApiResponse"));
 const asyncHandler_1 = __importDefault(require("../../utils/asyncHandler"));
@@ -27,6 +27,15 @@ const createReview = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 exports.createReview = createReview;
+const getAllReviews = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield review_service_1.reviewService.getAllReviews();
+    (0, ApiResponse_1.default)(res, {
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: "All reviews fetched successfully",
+        data: result,
+    });
+}));
+exports.getAllReviews = getAllReviews;
 const getReviews = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { mideaId } = req.params;
     const result = yield review_service_1.reviewService.getReviews(mideaId);

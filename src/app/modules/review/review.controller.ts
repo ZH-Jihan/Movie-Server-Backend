@@ -14,6 +14,15 @@ const createReview = asyncHandler(async (req, res) => {
   });
 });
 
+const getAllReviews = asyncHandler(async (req, res) => {
+  const result = await reviewService.getAllReviews();
+  ApiResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "All reviews fetched successfully",
+    data: result,
+  });
+});
+
 const getReviews = asyncHandler(async (req, res) => {
   const { mideaId } = req.params;
   const result = await reviewService.getReviews(mideaId);
@@ -38,9 +47,8 @@ const updateReview = asyncHandler(async (req, res) => {
 
 const likeReview = asyncHandler(async (req, res) => {
   const { id } = req.user;
-  const { id:mediaId } = req.params;
+  const { id: mediaId } = req.params;
   console.log(id, mediaId);
-  
 
   const result = await reviewService.likeReview(id, mediaId);
 
@@ -51,4 +59,4 @@ const likeReview = asyncHandler(async (req, res) => {
   });
 });
 
-export { createReview, getReviews, likeReview, updateReview };
+export { createReview, getAllReviews, getReviews, likeReview, updateReview };

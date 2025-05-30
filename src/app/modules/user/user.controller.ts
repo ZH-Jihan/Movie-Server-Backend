@@ -15,6 +15,17 @@ const getUser = asyncHandler(async (req, res) => {
   });
 });
 
+// get all user profile
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await userService.getAllProfiles();
+
+  ApiResponse(res, {
+    statusCode: StatusCodes.OK,
+    message: "All users fetched successfully",
+    data: users,
+  });
+});
+
 // Update user profile
 const updateUser = asyncHandler(async (req, res) => {
   const { id } = req.user;
@@ -65,6 +76,7 @@ const userWatchlistRemove = asyncHandler(async (req, res) => {
 });
 
 export {
+  getAllUsers,
   getUser,
   updateUser,
   userWatchlist,

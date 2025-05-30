@@ -1,6 +1,7 @@
 import { Router } from "express";
 import auth from "../../middlewares/auth";
 import {
+  getAllUsers,
   getUser,
   userWatchlist,
   userWatchlistAdd,
@@ -8,6 +9,9 @@ import {
 } from "./user.controller";
 
 const router = Router();
+
+// Get all users (Admin only)
+router.route("/").get(auth("ADMIN"), getAllUsers);
 
 router.route("/profile").get(auth("USER", "ADMIN"), getUser);
 router

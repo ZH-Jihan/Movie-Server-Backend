@@ -38,7 +38,7 @@ model Media {
   title         String
   description   String
   type          MediaType
-  posterUrl     String @default("not post")
+  posterUrl     String      @default("not post")
   genres        String[] // e.g. ["Action", "Drama"]
   releaseYear   Int
   duration      Int // in minutes (or episodes count for series)
@@ -47,6 +47,9 @@ model Media {
   streamingLink String // URL or storage key for content
   drmProtected  Boolean     @default(false)
   isPublished   Boolean     @default(false)
+  trailerUrl    String?
+  coverImage    String?
+  screenshots   String[]
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   reviews       Review[]
@@ -152,4 +155,34 @@ enum PurchaseStatus {
   PENDING
   COMPLETED
   REFUNDED
+}
+
+enum CouponStatus {
+  ACTIVE
+  EXPIRED
+  USED
+}
+
+model Coupon {
+  id        String       @id @default(uuid())
+  code      String       @unique
+  discount  Int // percentage discount
+  maxUses   Int          @default(1)
+  usedCount Int          @default(0)
+  expiresAt DateTime?
+  status    CouponStatus @default(ACTIVE)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@map("coupons")
+}
+
+model Newsletter {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  imageUrl  String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

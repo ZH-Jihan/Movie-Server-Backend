@@ -16,6 +16,31 @@ exports.reviewService = void 0;
 const http_status_codes_1 = require("http-status-codes");
 const ApiError_1 = __importDefault(require("../../utils/ApiError"));
 const prisma_1 = __importDefault(require("../../utils/prisma"));
+// get all fanding reviews
+const getAllReviews = () => __awaiter(void 0, void 0, void 0, function* () {
+    const reviews = yield prisma_1.default.review.findMany({
+        where: {
+            isApproved: false,
+        },
+        include: {
+            user: { select: { id: true, name: true } },
+            likes: true,
+            comments: true,
+            media: {
+                select: { id: true, title: true, type: true },
+            },
+        },
+    });
+    return reviews.map((review) => {
+        return Object.assign(Object.assign({}, review), { user: { id: review.user.id, name: review.user.name }, media: review.media
+                ? {
+                    id: review.media.id,
+                    title: review.media.title,
+                    type: review.media.type,
+                }
+                : null });
+    });
+});
 // Create a new review
 const createReview = (userId, review) => __awaiter(void 0, void 0, void 0, function* () {
     if (review.rating < 1 || review.rating > 10) {
@@ -85,4 +110,5 @@ exports.reviewService = {
     getReviews,
     updateReview,
     likeReview,
+    getAllReviews,
 };

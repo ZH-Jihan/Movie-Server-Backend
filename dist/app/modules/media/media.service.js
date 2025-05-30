@@ -29,7 +29,6 @@ const createMedia = (payload, img) => __awaiter(void 0, void 0, void 0, function
 });
 // Get all media with search, filter, sort, and pagination
 const getAllMedia = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(query);
     const queryBuilder = new QueryBuilder_1.default(query);
     const mediaList = yield prisma_1.default.media.findMany(queryBuilder
         .search(["title", "description"])

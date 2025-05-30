@@ -3,6 +3,36 @@ import { StatusCodes } from "http-status-codes";
 import ApiError from "../../utils/ApiError";
 import prisma from "../../utils/prisma";
 
+// get all fanding reviews
+const getAllReviews = async () => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      isApproved: false,
+    },
+    include: {
+      user: { select: { id: true, name: true } },
+      likes: true,
+      comments: true,
+      media: {
+        select: { id: true, title: true, type: true },
+      },
+    },
+  });
+  return reviews.map((review) => {
+    return {
+      ...review,
+      user: { id: review.user.id, name: review.user.name },
+      media: review.media
+        ? {
+            id: review.media.id,
+            title: review.media.title,
+            type: review.media.type,
+          }
+        : null,
+    };
+  });
+};
+
 // Create a new review
 const createReview = async (userId: string, review: Review) => {
   if (review.rating < 1 || review.rating > 10) {
@@ -84,4 +114,5 @@ export const reviewService = {
   getReviews,
   updateReview,
   likeReview,
+  getAllReviews,
 };

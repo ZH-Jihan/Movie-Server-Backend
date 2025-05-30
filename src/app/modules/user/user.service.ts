@@ -1,5 +1,21 @@
 import prisma from "../../utils/prisma";
 
+// Get All User Profiles
+const getAllProfiles = async () => {
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+      createdAt: true,
+      status: true,
+    },
+  });
+
+  return users;
+};
+
 // Get user profile
 const getProfile = async (userId: string) => {
   const user = await prisma.user.findUnique({
@@ -50,6 +66,7 @@ const userWatchlistRemove = async (userId: string, mediaId: string) => {
 
 export const userService = {
   getProfile,
+  getAllProfiles,
   updateProfile,
   userWatchlist,
   userWatchlistAdd,

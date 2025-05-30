@@ -1,7 +1,10 @@
 import { Router } from "express";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { CommentRoutes } from "../modules/comment/comment.route";
+import { CuponRoutes } from "../modules/coupon/coupon.routes";
 import { MediaRoutes } from "../modules/media/media.route";
+import { NewsletterRoutes } from "../modules/newsletter/newsletter.routes";
+import { PurchaseRoutes } from "../modules/purchases/purchase.routes";
 import { ReviewRoutes } from "../modules/review/review.route";
 
 const router = Router();
@@ -20,12 +23,24 @@ const routerModules = [
     route: ReviewRoutes,
   },
   {
+    path: "/coupons",
+    route: CuponRoutes,
+  },
+  {
     path: "/comment",
     route: CommentRoutes,
   },
   {
     path: "/user",
     route: CommentRoutes,
+  },
+  {
+    path: "/newsletters",
+    route: NewsletterRoutes,
+  },
+  {
+    path: "/purchases",
+    route: PurchaseRoutes,
   },
 ];
 

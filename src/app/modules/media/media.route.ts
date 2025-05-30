@@ -19,13 +19,14 @@ router
   .get(getAllMedia)
   .post(
     auth("ADMIN"),
-    upload.single("file"),
+    upload.fields([
+      { name: "file", maxCount: 1 },
+      { name: "coverImage", maxCount: 1 },
+      { name: "screenshots", maxCount: 5 },
+    ]),
     (req: Request, res: Response, next: NextFunction) => {
-    
-          req.body = JSON.parse(req?.body?.data);
-          console.log(req.body);
-          
-        next();
+      req.body = JSON.parse(req?.body?.data);
+      next();
     },
     validateRequest(mediaCreateSchema),
     createMedia
