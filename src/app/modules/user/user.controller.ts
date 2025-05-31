@@ -53,7 +53,8 @@ const userWatchlist = asyncHandler(async (req, res) => {
 // Add media to user watchlist
 const userWatchlistAdd = asyncHandler(async (req, res) => {
   const { id } = req.user;
-  const { mediaId } = req.params;
+  console.log(req.body);
+  const { mediaId } = req.body;
   const watchlist = await userService.userWatchlistAdd(id, mediaId);
 
   ApiResponse(res, {

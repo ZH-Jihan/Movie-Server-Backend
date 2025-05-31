@@ -12,6 +12,8 @@ const config = {
   cloud_name: process.env.CLOUD_NAME,
   cloud_api_key: process.env.CLOUD_AIP_KEY,
   cloud_api_secret: process.env.CLOUD_AIP_SECRET,
+  sslcommerz_store_id: process.env.SSL_STORE_ID,
+  sslcommerz_api_key: process.env.SSL_API_SECRET,
 };
 
 export default config;

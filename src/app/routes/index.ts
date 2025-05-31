@@ -6,6 +6,7 @@ import { MediaRoutes } from "../modules/media/media.route";
 import { NewsletterRoutes } from "../modules/newsletter/newsletter.routes";
 import { PurchaseRoutes } from "../modules/purchases/purchase.routes";
 import { ReviewRoutes } from "../modules/review/review.route";
+import { UserRoutes } from "../modules/user/user.route";
 
 const router = Router();
 
@@ -32,7 +33,7 @@ const routerModules = [
   },
   {
     path: "/user",
-    route: CommentRoutes,
+    route: UserRoutes,
   },
   {
     path: "/newsletters",

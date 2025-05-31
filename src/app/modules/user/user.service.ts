@@ -48,6 +48,12 @@ const userWatchlist = async (userId: string) => {
 
 // Add media to user watchlist
 const userWatchlistAdd = async (userId: string, mediaId: string) => {
+  const watchlists = await prisma.watchlist.findUnique({
+    where: { userId_mediaId: { userId, mediaId } },
+  });
+  if (watchlists) {
+    throw new Error("Media already in watchlist");
+  }
   const watchlist = await prisma.watchlist.create({
     data: { userId, mediaId },
   });
@@ -57,6 +63,12 @@ const userWatchlistAdd = async (userId: string, mediaId: string) => {
 
 // Remove media from user watchlist
 const userWatchlistRemove = async (userId: string, mediaId: string) => {
+  const watchlist = await prisma.watchlist.findUnique({
+    where: { userId_mediaId: { userId, mediaId } },
+  });
+  if (!watchlist) {
+    throw new Error("Watchlist not found");
+  }
   await prisma.watchlist.delete({
     where: { userId_mediaId: { userId, mediaId } },
   });

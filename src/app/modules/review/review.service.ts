@@ -33,6 +33,16 @@ const getAllReviews = async () => {
   });
 };
 
+// get user reviews
+const getUserReviews = async (userId: string) => {
+  const reviews = await prisma.review.findMany({
+    where: {
+      userId: userId,
+    },
+  });
+  return reviews;
+};
+
 // Create a new review
 const createReview = async (userId: string, review: Review) => {
   if (review.rating < 1 || review.rating > 10) {
@@ -115,4 +125,5 @@ export const reviewService = {
   updateReview,
   likeReview,
   getAllReviews,
+  getUserReviews,
 };
